@@ -1,7 +1,8 @@
 const keys = document.querySelectorAll(".keys__key")
 const operators = document.querySelectorAll("#operator")
 const numbers = document.querySelectorAll("#number")
-const display = document.querySelector(".display")
+const display = document.querySelector(".display--current")
+const topDisplay = document.querySelector(".display--last")
 const clearAll = document.querySelector(".keys__key--all-clear")
 const clearLast = document.querySelector(".keys__key--backspace")
 const leftBracket = document.querySelector(".keys__key--left-perenth")
@@ -21,6 +22,7 @@ let displayArr = []
 let storageNumberArr = []
 let activeNumberArr = []
 let operatorArr = []
+let percentArr = [0]
 let totalNumber = 0
 let previousEqArr = [[],[],[]] // stores storageNumberArr, operatorArray, activeNumberArray for secondary display
 
@@ -31,8 +33,7 @@ let previousEqArr = [[],[],[]] // stores storageNumberArr, operatorArray, active
 
 numbers.forEach((number) =>{
     number.addEventListener("click", (event)=> {
-        if (event.target.innerText == "." & activeNumberArr[activeNumberArr.length-1] == "."){
-            display.innerText = displayArr.join("")
+        if (event.target.innerText == "." & activeNumberArr.includes(".")){
         } else {
             displayArr.push(event.target.innerText)
             activeNumberArr.push(event.target.innerText)
@@ -68,6 +69,8 @@ operators.forEach((operator) =>{
             } else if (operatorArr[0]=="-"){
                 totalNumber = Number(storageNumberArr.join("")) - Number(activeNumberArr.join(""))
             } 
+            displayArr.push("=")
+            topDisplay.innerText = displayArr.join("")
             previousEqArr[0] = [...storageNumberArr]
             previousEqArr[1] = [...operatorArr[0]]
             previousEqArr[2] = [...activeNumberArr]
@@ -82,9 +85,24 @@ operators.forEach((operator) =>{
 })
 
 // percent.addEventListener("click", (event)=>{
-//     displayArr.push(event.target.innerText)
+//     // displayArr.push(event.target.innerText)
+//     // display.innerText = displayArr.join("")
+//     if operatorArr == 0 activeNumberArr == 0
+//      percentArr[0] = 0
+//      else if operatorArr == 0 activeNumberArr >0
+//      percentArr[0] = 1
+//      else if operatorArr > 0 activeNumberArr ==0
+//      nothing
+//      else if operatorArr > 0 activeNumberArr > 0
+//      percentArr[0] = 2 
+//      
+// }
 
-//     display.innerText = displayArr.join("")
+
+
+//     // displayArr.push(event.target.innerText)
+//     // activeNumberArr.push(event.target.innerText)
+//     // display.innerText = displayArr.join("")
 // })
 
 equals.addEventListener("click",(event)=>{
@@ -106,6 +124,8 @@ equals.addEventListener("click",(event)=>{
     previousEqArr[0] = [...storageNumberArr]
     previousEqArr[1] = [...operatorArr]
     previousEqArr[2] = [...activeNumberArr]
+    displayArr.push("=")
+    topDisplay.innerText = displayArr.join("")
     activeNumberArr = totalNumber.toString().split("")
     operatorArr = []
     displayArr = [...activeNumberArr]

@@ -27,6 +27,20 @@
     text-align: end;
     font-size: 40px;
     padding: 5%;
+    display: flex;
+    flex-direction: column;
+    &--current{
+        background-color: rgb(0, 0, 0);
+        width: 100%;
+        height: 70%;
+        color: #FFFFFF;
+    }
+    &--last{
+        background-color: #0f0912;
+        width: 100%;
+        height: 30%;
+        color: aqua;
+    }
 }
 
 .keys{
