@@ -5,23 +5,24 @@ const display = document.querySelector(".display")
 const clearAll = document.querySelector(".keys__key--all-clear")
 const clearLast = document.querySelector(".keys__key--backspace")
 const leftBracket = document.querySelector(".keys__key--left-perenth")
-// keys__key--right-perenth
+const rightBracket = document.querySelector(".keys__key--right-perenth")
 // keys__key--multiply
 // keys__key-- sqrt
-// keys__key--percent
+// const percent = document.querySelector(".keys__key--percent")
 // keys__key--plus-minus
 // keys__key--divide
-const additionButton = document.querySelector(".keys__key--plus")
+// const additionButton = document.querySelector(".keys__key--plus")
 // keys__key--minus
 // keys__key--point
-// keys__key--equal
+const equals = document.querySelector(".keys__key--equal")
+
 
 let displayArr = []
 let storageNumberArr = []
 let activeNumberArr = []
 let operatorArr = []
 let totalNumber = 0
-
+let previousEqArr = [[],[],[]] // stores storageNumberArr, operatorArray, activeNumberArray
 
 
 // console.log(keys)
@@ -30,12 +31,13 @@ let totalNumber = 0
 
 numbers.forEach((number) =>{
     number.addEventListener("click", (event)=> {
-        // if (storageNumberArr<1) {
-
-        // }
-        displayArr.push(event.target.innerText)
-        activeNumberArr.push(event.target.innerText)
-        display.innerText = displayArr.join("")
+        if (event.target.innerText == "." & activeNumberArr[activeNumberArr.length-1] == "."){
+            display.innerText = displayArr.join("")
+        } else {
+            displayArr.push(event.target.innerText)
+            activeNumberArr.push(event.target.innerText)
+            display.innerText = displayArr.join("")
+        }
         // console.log(activeNumberArr)
         // console.log(displayArr)
         // console.log(operatorArr)
@@ -56,14 +58,13 @@ numbers.forEach((number) =>{
 // +,-,*,/
 operators.forEach((operator) =>{
     operator.addEventListener("click", (event)=>{
-        console.log(operatorArr)
-        if (operatorArr.length==0 & activeNumberArr>0){
+        if (operatorArr==0 & activeNumberArr.length>0){
             displayArr.push(event.target.innerText)
             storageNumberArr = [...activeNumberArr]
             activeNumberArr = []
             operatorArr[0] = event.target.innerText
             // console.log(displayArr)
-        } else if (operatorArr.length==0 & activeNumberArr==0){
+        } else if (operatorArr==0 & activeNumberArr==0){
             // operatorArr[0] = event.target.innerText
         } else if (operatorArr.length==1 & activeNumberArr==0){
             displayArr.pop()
@@ -79,11 +80,13 @@ operators.forEach((operator) =>{
                 totalNumber = Number(storageNumberArr.join("")) + Number(activeNumberArr.join(""))
             } else if (operatorArr[0]=="-"){
                 totalNumber = Number(storageNumberArr.join("")) - Number(activeNumberArr.join(""))
-            }
+            } 
             storageNumberArr = []
             storageNumberArr = totalNumber.toString().split("")
             activeNumberArr = []
             operatorArr[0] = event.target.innerText
+            displayArr.unshift("=")
+            previousEq = displayArr.join("")
             displayArr = []
             displayArr = [...storageNumberArr]
             displayArr.push(event.target.innerText)
@@ -94,7 +97,32 @@ operators.forEach((operator) =>{
 })
 
 
-
+equals.addEventListener("click",(event)=>{
+    if (operatorArr==0){
+        totalNumber = activeNumberArr.join("")
+    }else if (operatorArr[0]=="*"){
+        totalNumber = Number(storageNumberArr.join("")) * Number(activeNumberArr.join(""))
+    } else if (operatorArr[0]=="/"){
+        if (Number(activeNumberArr.join(""))==0){
+            totalNumber = "NaN"
+        } else {
+            totalNumber = Number(storageNumberArr.join("")) / Number(activeNumberArr.join(""))
+        }
+    } else if (operatorArr[0]=="+"){
+        totalNumber = Number(storageNumberArr.join("")) + Number(activeNumberArr.join(""))
+    } else if (operatorArr[0]=="-"){
+        totalNumber = Number(storageNumberArr.join("")) - Number(activeNumberArr.join(""))
+    }
+    // console.log(activeNumberArr)
+    // console.log(displayArr)
+    activeNumberArr = totalNumber.toString().split("")
+    operatorArr = []
+    displayArr.unshift("=")
+    previousEq = displayArr.join("")
+    displayArr = []
+    displayArr = [...activeNumberArr]
+    display.innerText = displayArr.join("")
+})
 
 // keys.forEach((key) =>{
 //     key.addEventListener("click", (event)=> {
@@ -109,6 +137,7 @@ clearAll.addEventListener("click",()=>{
     storageNumberArr = []
     activeNumberArr = []
     operatorArr = []
+    totalNumber = 0
     // console.log(displayArr)
     display.innerText = displayArr.join("")
 })
@@ -116,12 +145,21 @@ clearLast.addEventListener("click",()=>{
     if(displayArr.length==0){
         displayArr=[]
     } else {
-        displayArr.pop()
-        activeNumberArr.pop()
-    }
-    // if(operatorArr)
+        if(operatorArr.length==1 & activeNumberArr.length==0) {
+            operatorArr = []
+            activeNumberArr = [...storageNumberArr]
+            storageNumberArr = []
+            displayArr = [...activeNumberArr]
+        } else if(operatorArr.length==1 & activeNumberArr.length>0 ){
+            displayArr.pop()
+            activeNumberArr.pop()
+        } else { 
+            displayArr.pop()
+            activeNumberArr.pop()
+        }
+    } 
     display.innerText = displayArr.join("")
-    console.log(displayArr)
+    // console.log(displayArr)
 })
 
 // const addition = () => {
