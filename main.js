@@ -10,7 +10,7 @@ const rightBracket = document.querySelector(".keys__key--right-perenth")
 // keys__key--multiply
 // keys__key-- sqrt
 const percent = document.querySelector(".keys__key--percent")
-// keys__key--plus-minus
+const plusMinus = document.querySelector(".keys__key--plus-minus") 
 // keys__key--divide
 // const additionButton = document.querySelector(".keys__key--plus")
 // keys__key--minus
@@ -38,6 +38,7 @@ numbers.forEach((number) =>{
             displayArr.push(event.target.innerText)
             activeNumberArr.push(event.target.innerText)
             display.innerText = displayArr.join("")
+            console.log(activeNumberArr)
         }
     })
 })
@@ -50,6 +51,7 @@ operators.forEach((operator) =>{
             displayArr.push(event.target.innerText)
             storageNumberArr = [...activeNumberArr]
             activeNumberArr = []
+            console.log(activeNumberArr)
             operatorArr[0] = event.target.innerText
             // console.log(displayArr)
         } else if (operatorArr==0 & activeNumberArr==0){
@@ -84,6 +86,27 @@ operators.forEach((operator) =>{
     })
 })
 
+plusMinus.addEventListener("click", (event) =>{
+    let numberArr =[]
+    if (operatorArr==0) {
+        activeNumberArr =  (-1*Number(activeNumberArr.join(""))).toString().split("")
+        displayArr = [...activeNumberArr]
+        display.innerText = displayArr.join("")
+    } else if (operatorArr!=0 & activeNumberArr ==0){
+        activeNumberArr.push("-")
+        displayArr.push("-")
+        display.innerText = displayArr.join("") 
+        console.log(activeNumberArr)
+    } else {
+        activeNumberArr =  (-1*Number(activeNumberArr.join(""))).toString().split("")
+        numberArr = displayArr.join("").split(operatorArr[0])
+        numberArr[1] = -1*numberArr[1]
+        displayArr = numberArr.join(operatorArr[0]).split("")
+        display.innerText = displayArr.join("")
+    }
+})
+
+// Next to work on: percent button + plus-minus button to convert active number into a negative
 // percent.addEventListener("click", (event)=>{
 //     // displayArr.push(event.target.innerText)
 //     // display.innerText = displayArr.join("")
@@ -138,6 +161,7 @@ clearAll.addEventListener("click",()=>{
     activeNumberArr = []
     operatorArr = []
     totalNumber = 0
+    topDisplay.innerText = displayArr.join("")
     display.innerText = displayArr.join("")
 })
 clearLast.addEventListener("click",()=>{
