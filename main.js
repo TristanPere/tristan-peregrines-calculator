@@ -5,8 +5,9 @@ const display = document.querySelector(".display--current");
 const topDisplay = document.querySelector(".display--last");
 const clearAll = document.querySelector(".keys__key--all-clear");
 const clearLast = document.querySelector(".keys__key--backspace");
-const leftBracket = document.querySelector(".keys__key--left-perenth");
-const rightBracket = document.querySelector(".keys__key--right-perenth");
+// const leftBracket = document.querySelector(".keys__key--left-perenth");
+// const rightBracket = document.querySelector(".keys__key--right-perenth");
+const answer = document.querySelector(".keys__key--ANS");
 // keys__key--multiply
 // keys__key-- sqrt
 const percent = document.querySelector(".keys__key--percent");
@@ -25,18 +26,22 @@ let percentArr = [0];
 let totalNumber = 0;
 let previousEqArr = [[], [], []]; // stores storageNumberArr, operatorArray, activeNumberArray for secondary display
 
-// console.log(keys)
-
 //opperators have their own class
 
 numbers.forEach((number) => {
   number.addEventListener("click", (event) => {
     if ((event.target.innerText == ".") & activeNumberArr.includes(".")) {
-    } else {
+    } 
+    else if (event.target.innerText == "&#8508") {
+      displayArr.push(event.target.innerText);
+      activeNumberArr.push(Math.PI);
+      console.log(activeNumberArr)
+      display.innerText = displayArr.join("");
+    }
+    else {
       displayArr.push(event.target.innerText);
       activeNumberArr.push(event.target.innerText);
       display.innerText = displayArr.join("");
-      console.log(activeNumberArr);
     }
   });
 });
@@ -48,12 +53,11 @@ operators.forEach((operator) => {
       displayArr.push(event.target.innerText);
       storageNumberArr = [...activeNumberArr];
       activeNumberArr = [];
-      console.log(activeNumberArr);
       operatorArr[0] = event.target.innerText;
       // console.log(displayArr)
     } else if ((operatorArr == 0) & (activeNumberArr == 0)) {
       // operatorArr[0] = event.target.innerText
-    } else if ((operatorArr.length == 1) & (activeNumberArr == 0)) {
+    } else if ((operatorArr.length == 1) & (activeNumberArr === 0)) {
       displayArr.pop();
       displayArr.push(event.target.innerText);
       operatorArr[0] = event.target.innerText;
@@ -62,8 +66,12 @@ operators.forEach((operator) => {
         totalNumber =
           Number(storageNumberArr.join("")) * Number(activeNumberArr.join(""));
       } else if (operatorArr[0] == "/") {
-        totalNumber =
-          Number(storageNumberArr.join("")) / Number(activeNumberArr.join(""));
+        if (Number(activeNumberArr.join("")) == 0) {
+          totalNumber = "NaN";
+        } else {
+          totalNumber =
+            Number(storageNumberArr.join("")) / Number(activeNumberArr.join(""));
+        }
       } else if (operatorArr[0] == "+") {
         totalNumber =
           Number(storageNumberArr.join("")) + Number(activeNumberArr.join(""));
@@ -87,35 +95,30 @@ operators.forEach((operator) => {
 });
 
 plusMinus.addEventListener("click", (event) => {
-  let numberArr = [];
-  if (operatorArr == 0) {
-    activeNumberArr = (-1 * Number(activeNumberArr.join("")))
-      .toString()
-      .split("");
-    displayArr = [...activeNumberArr];
-    display.innerText = displayArr.join("");
-  } else if ((operatorArr != 0) & (activeNumberArr == 0)) {
-    activeNumberArr.push("-");
-    displayArr.push("-");
-    display.innerText = displayArr.join("");
-    console.log(activeNumberArr);
+  if (operatorArr == 0 & (activeNumberArr.length == 0)){
+  } else if (operatorArr == 0 & (activeNumberArr.length != 0)) {
+      activeNumberArr = (-1 * Number(activeNumberArr.join("")))
+        .toString()
+        .split("");
+      displayArr = [...activeNumberArr];
+      display.innerText = displayArr.join("");
+  } else if ((operatorArr != 0) & (activeNumberArr.length == 0)) {
+      activeNumberArr.push("-");
+      displayArr.push("-");
+      display.innerText = displayArr.join("");
   } else {
     if (activeNumberArr.join("") == "-") {
-      activeNumberArr.pop();
-      displayArr.pop();
-      display.innerText = displayArr.join("");
-    } else {
-      activeNumberArr = (-1 * Number(activeNumberArr.join("")))
-      .toString()
-      .split("");
-      for (let index = 0; index <= activeNumberArr.length; index++) {
-        activeNumberArr.shift()
-        displayArr.splice[displayArr.length-(activeNumberArr.length)]
-      }  
-      display.innerText = displayArr.join("");
-      console.log(activeNumberArr);
-      console.log(numberArr);
-    }
+        activeNumberArr.pop();
+        displayArr.pop();
+        display.innerText = displayArr.join("");
+    } else { //case of an activenumber and an operator
+        displayArr = displayArr.splice(0,storageNumberArr.length+1)
+        activeNumberArr = (-1 * Number(activeNumberArr.join("")))
+        .toString()
+        .split("");
+        displayArr = displayArr.concat(activeNumberArr)
+        display.innerText = displayArr.join("");
+      }
   }
 });
 
@@ -141,7 +144,30 @@ plusMinus.addEventListener("click", (event) => {
 //     // display.innerText = displayArr.join("")
 // })
 
-equals.addEventListener("click", (event) => {
+// leftBracket.addEventListener("click", () => {
+//   displayArr = 
+// })
+answer.addEventListener("click", () => {
+  let totalNumberArr = totalNumber.toString().split("")
+  if (totalNumber >= 0) {
+    displayArr = displayArr.concat(totalNumberArr)
+    activeNumberArr = activeNumberArr.concat(totalNumberArr)
+    display.innerText = displayArr.join("");
+  } else if (totalNumber < 0 & operatorArr != 0 ){
+    if (activeNumberArr.length == 0) {
+    activeNumberArr = [...totalNumberArr];
+    displayArr = displayArr.concat(totalNumberArr)
+    display.innerText = displayArr.join("");}
+    else {
+    activeNumberArr = [...totalNumberArr];
+    displayArr = displayArr.splice(0,storageNumberArr.length+1)
+    displayArr = displayArr.concat(activeNumberArr)
+    display.innerText = displayArr.join("");
+    }
+  }
+})
+
+equals.addEventListener("click", () => {
   if (operatorArr == 0) {
     totalNumber = Number(activeNumberArr.join(""));
   } else if (operatorArr[0] == "*") {
@@ -165,7 +191,7 @@ equals.addEventListener("click", (event) => {
   previousEqArr[1] = [...operatorArr];
   previousEqArr[2] = [...activeNumberArr];
   displayArr.push("=");
-  topDisplay.innerText = displayArr.join("");
+  topDisplay.innerText = displayArr.join("") + totalNumber;
   activeNumberArr = totalNumber.toString().split("");
   operatorArr = [];
   displayArr = [...activeNumberArr];
@@ -181,6 +207,8 @@ clearAll.addEventListener("click", () => {
   topDisplay.innerText = displayArr.join("");
   display.innerText = displayArr.join("");
 });
+
+
 clearLast.addEventListener("click", () => {
   if (displayArr.length == 0) {
     displayArr = [];
