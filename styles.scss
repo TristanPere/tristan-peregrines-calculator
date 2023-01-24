@@ -16,9 +16,10 @@ body{
     box-sizing: border-box;
     background-color: #bb29ff;
     display: grid;
-    grid-template-rows: 2fr 5fr;
+    grid-template-rows: 2.5fr 5fr;
     padding: 5%;
     border-radius: 1rem;
+    width: 100%;
 }
 
 .display{
@@ -28,7 +29,7 @@ body{
     border: 1px solid black;
     justify-self: center;
     text-align: end;
-    font-size: 2.5rem;
+    font-size: 2rem;
     padding: 3%;
     margin-bottom: 5%;
     display: flex;
@@ -47,7 +48,7 @@ body{
         background-color: #0f0912;
         border-radius: 16px 16px 0 0;
         justify-items: center;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         height: 40%;
         color: aqua;
         padding: 3%;
@@ -79,10 +80,10 @@ body{
         border-radius: 16px;
         padding: 5%;
         margin: 2%;
-        &--equal{
-            width: 46%;
-            margin: 2%;
-        }
+        // &--equal{
+        //     width: 46%;
+        //     margin: 2%;
+        // }
     }
 }
 
@@ -110,5 +111,6 @@ body{
   @media screen and (min-width: 768px) {
     .frame{
         padding: 2%;
+        width: 30%;
     }
   }
