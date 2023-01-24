@@ -89,15 +89,17 @@ operators.forEach((operator) => {
       operatorArr[0] = event.target.innerText;
       displayArr = [...storageNumberArr];
       displayArr.push(event.target.innerText);
-      
     }
     display.innerText = displayArr.join("");
   });
 });
 
 plusMinus.addEventListener("click", (event) => {
+  //The plus minus button turns whatever active number is on display into a negative number.
   if ((operatorArr == 0) & (activeNumberArr.length == 0)) {
+    //Case no number on screen
   } else if ((operatorArr == 0) & (activeNumberArr.length != 0)) {
+    //Case no operator only active number
     activeNumberArr = (-1 * Number(activeNumberArr.join("")))
       .toString()
       .split("");
@@ -145,18 +147,19 @@ percent.addEventListener("click", (event)=>{
     display.innerText = displayArr.join("")
 })  */
 
-answer.addEventListener("click", () => {
+answer.addEventListener("click", () => { //takes the stored value from previous equation and inputs it into the display.
   let totalNumberArr = totalNumber.toString().split("");
   if (totalNumber >= 0) {
     displayArr = displayArr.concat(totalNumberArr);
     activeNumberArr = activeNumberArr.concat(totalNumberArr);
     display.innerText = displayArr.join("");
-  } else if ((totalNumber < 0) & (operatorArr != 0)) {
+  } else if (/*(totalNumber < 0) & */ operatorArr != 0) {
     if (activeNumberArr.length == 0) {
       activeNumberArr = [...totalNumberArr];
       displayArr = displayArr.concat(totalNumberArr);
       display.innerText = displayArr.join("");
     } else {
+      //Fixed bug inputing a stored negative number next to an active number resulting in solution error from wrong syntax.
       activeNumberArr = [...totalNumberArr];
       displayArr = displayArr.splice(0, storageNumberArr.length + 1);
       displayArr = displayArr.concat(activeNumberArr);
@@ -165,7 +168,7 @@ answer.addEventListener("click", () => {
   }
 });
 
-equals.addEventListener("click", () => {
+equals.addEventListener("click", () => { //exact same as in operator function
   if (operatorArr == 0) {
     totalNumber = Number(activeNumberArr.join(""));
   } else if (operatorArr[0] == "*") {

@@ -90,6 +90,9 @@ body{
         border-radius:  16px;
         padding: 5%;
         margin: 2%;
+        &:active{
+          border: 1px solid #000000;
+        }
     }
 }
 
