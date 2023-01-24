@@ -14,6 +14,7 @@ styles.scss.map is used to convert the scss file to the readable and usable styl
 
 The calculator can be used to operate on two numbers via one simple mathematical operator. It can express and operate on any real nunmber input by user. It stops incorrect syntax input from users with plus/minus button.
  
+![alt text](https://github.com/[TristanPere]/[tristan-peregrines-calculator]/blob/[main]/calculatorDescription.jpg?raw=true)
 ## Setup / Installation
  
  Within your computers terminal:
