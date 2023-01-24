@@ -4,9 +4,11 @@
 }
 
 body {
+  justify-self: center;
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+  min-width: 250px;
 }
 
 .frame {
@@ -20,9 +22,10 @@ body {
 }
 
 .display {
-  width: 100%;
+  max-width: 500px;
+  width: 90%;
   border-radius: 1rem;
-  background-color: #FFFFFF;
+  background-color: #bf8aff;
   border: 1px solid black;
   justify-self: center;
   text-align: end;
@@ -32,37 +35,42 @@ body {
   display: flex;
   flex-direction: column;
   box-shadow: 4px 0px 0px rgba(0, 0, 0, 0.25), inset 0px 10px 8px rgba(0, 0, 0, 0.29);
+  overflow: hidden;
+  text-overflow: "";
 }
 .display--current {
-  background-color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
   border-radius: 0 0 16px 16px;
+  border: #000000 solid 1px;
   height: 60%;
-  color: #FFFFFF;
+  color: #000000;
   padding: 3%;
-  overflow: auto;
+  overflow: hidden;
   text-overflow: "";
 }
 .display--last {
-  background-color: #0f0912;
+  background-color: #efcfff;
   border-radius: 16px 16px 0 0;
   justify-items: center;
   font-size: 1.4rem;
   height: 40%;
-  color: aqua;
+  color: rgb(17, 14, 20);
   padding: 3%;
-  overflow: auto;
+  overflow: hidden;
   text-overflow: "";
+  border: #000000 solid 1px;
 }
 
 .keys {
   border: 1px solid black;
   border-radius: 1rem;
-  width: 100%;
+  width: 90%;
   padding: 3%;
   justify-self: center;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  background-color: #bf8aff;
   box-shadow: 4px 0px 0px rgba(0, 0, 0, 0.25), inset 0px 10px 8px rgba(0, 0, 0, 0.29);
 }
 .keys__key {
@@ -71,6 +79,7 @@ body {
   justify-content: center;
   align-items: center;
   width: 21%;
+  font-size: 1rem;
   box-sizing: border-box;
   background: #FFFFFF;
   border: 1px solid #FFFFFF;
@@ -80,30 +89,13 @@ body {
   margin: 2%;
 }
 
-/* width */
-::-webkit-scrollbar {
-  width: 3px;
-  height: 3px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #888;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
 @media screen and (min-width: 768px) {
+  body {
+    width: 100%;
+    display: grid;
+    justify-content: center;
+  }
   .frame {
-    padding: 2%;
-    width: 30%;
+    width: 100%;
   }
 }/*# sourceMappingURL=styles.css.map */
